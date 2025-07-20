@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Airline Reservation System</title>
+  <style>
+    body { 
+      font-family: Arial; padding: 20px; 
+    }
+    input, button {
+       padding: 8px; margin: 5px; 
+      }
+    table {
+       border-collapse: collapse; width: 100%; margin-top: 20px; 
+      }
+    th, td {
+       border: 1px solid #ccc; padding: 8px; text-align: center; 
+      }
+  </style>
+</head>
+<body>
+
+  <h2>Search Flights</h2>
+  <input type="text" id="from" placeholder="From">
+  <input type="text" id="to" placeholder="To">
+  <button onclick="searchFlights()">Search</button>
+
+  <div id="flight-results"></div>
+
+  <h2>Book Flight</h2>
+  <input type="text" id="flightId" placeholder="Flight ID">
+  <input type="text" id="passengerName" placeholder="Your Name">
+  <button onclick="bookFlight()">Book</button>
+
+  <div id="booking-status"></div>
+
+  <script>
+    function searchFlights() {
+      const from = document.getElementById('from').value;
+      const to = document.getElementById('to').value;
+
+      fetch(`http://localhost:9090/api/flights?from=${from}&to=${to}`)
+        .then(res => res.json())
+        .then(data => {
+          let table = '<table><tr><th>ID</th><th>Airline</th><th>Departure</th><th>Arrival</th><th>Seats</th><th>Fare</th></tr>';
+          data.forEach(flight => {
+            table += `<tr>
+              <td>${flight.id}</td>
+              <td>${flight.airline}</td>
+              <td>${flight.departureTime}</td>
+              <td>${flight.arrivalTime}</td>
+              <td>${flight.availableSeats}</td>
+              <td>₹${flight.fare}</td>
+            </tr>`;
+          });
+          table += '</table>';
+          document.getElementById('flight-results').innerHTML = table;
+        })
+        .catch(err => {
+          document.getElementById('flight-results').innerHTML = 'Error fetching flights.';
+          console.error(err);
+        });
+    }
+
+    function bookFlight() {
+      const flightId = document.getElementById('flightId').value;
+      const passengerName = document.getElementById('passengerName').value;
+
+      fetch(`http://localhost:9090/api/book?flightId=${flightId}&passengerName=${passengerName}`, {
+        method: 'POST'
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('booking-status').innerText = `Booking confirmed for ${data.passengerName} (Flight ID: ${data.flight.id})`;
+      })
+      .catch(err => {
+        document.getElementById('booking-status').innerText = 'Booking failed.';
+        console.error(err);
+      });
+    }
+  </script>
+
+</body>
+</html>
