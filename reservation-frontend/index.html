@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Airline Reservation System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Search Flights</h2>
+  <input type="text" id="from" placeholder="From">
+  <input type="text" id="to" placeholder="To">
+  <button onclick="searchFlights()">Search</button>
+  <div id="flight-results"></div>
+
+  <h2>Book Flight</h2>
+  <input type="text" id="flightId" placeholder="Flight ID">
+  <input type="text" id="passengerName" placeholder="Your Name">
+  <button onclick="bookFlight()">Book</button>
+  <div id="booking-status"></div>
+
+  <h2>Admin Login</h2>
+  <input type="text" id="adminUsername" placeholder="Username">
+  <input type="password" id="adminPassword" placeholder="Password">
+  <button onclick="adminLogin()">Login</button>
+  <div id="admin-login-status"></div>
+
+  <div id="add-flight-section">
+    <h3>Add New Flight</h3>
+    <input type="text" id="airline" placeholder="Airline">
+    <input type="text" id="fromInput" placeholder="From">
+    <input type="text" id="toInput" placeholder="To">
+    <input type="text" id="departureTime" placeholder="Departure Time">
+    <input type="text" id="arrivalTime" placeholder="Arrival Time">
+    <input type="number" id="availableSeats" placeholder="Seats">
+    <input type="number" id="fare" placeholder="Fare">
+    <button onclick="addFlight()">Add Flight</button>
+    <div id="flight-add-status"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
